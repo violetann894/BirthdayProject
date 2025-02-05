@@ -10,10 +10,12 @@ public class BirthdayProgramTester {
         BirthdayProgram tester = new BirthdayProgram();
 
         //Initialize the classSize
-        int classSize = 100;
+        int classSize = 33;
 
         //Print out a formatted string of the probability that two people share a birthday in the same class
-        System.out.printf("The probability that two people share a birthday in a %d person sized class: %f", classSize,
+        System.out.printf("The probability that two people share a birthday in a %d person sized class: %.2f", classSize,
                 tester.runTrials(10000, classSize)*100);
+
+
     }
 }
