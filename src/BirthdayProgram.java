@@ -80,38 +80,74 @@ public class BirthdayProgram {
             //Generate a new list of people for each trial
             ArrayList<Person> listOfPeople = generatePeople(people);
 
-            int j = 0;
-            while(j < listOfPeople.size()){
+            //Initialize a boolean variable to check if we broke out of the inner loop
+            boolean broke = false;
 
-                Person person1 = listOfPeople.get(j);
+            /* For loops to iterate through the list two people at a time to compare them. The first for the loop is the
+            person that is compared to the whole list. The second for loop is used to compare each element in the list
+            to the person in the first loop.*/
+            for(int x = 0; x < listOfPeople.size(); x++){
+                for (Person person2 : listOfPeople) {
 
-                for(int x = 1; x < listOfPeople.size(); x++){
+                    //Initialize a variable to hold the person from the first loop
+                    Person person1 = listOfPeople.get(x);
 
-                    Person person2 = listOfPeople.get(x);
+                    //Run the checkForBirthday method to check if person 1 and person 2 share a birthday
+                    if (checkForBirthday(person1, person2)) {
 
-                    //Make sure they are not the same Person object
-                    if(person1 != person2){
+                        //If they do
 
-                        //Check to see if they have the same birthday and birth month
-                        if(person1.getBirthday() == person2.getBirthday() &&
-                                person1.getBirthMonth() == person2.getBirthMonth()){
+                        //Increment the count of matches by one
+                        countOfMatches++;
 
-                            //If they have the same birthday and birth month, add one to the number of matches
-                            countOfMatches++;
-                        }
+                        //Set the broke variable to true
+                        broke = true;
+
+                        //break out of the second loop
+                        break;
                     }
+
                 }
 
-                listOfPeople.remove(person1);
+                //Check if the broke variable is true
+                if(broke){
 
+                    //If it is
+
+                    //Break out of the first loop
+                    break;
+                }
             }
 
         }
 
-        System.out.println(countOfMatches);
-
         //Calculate the percentage of matches birthdays and return it
-        return calculatePercentage(countOfMatches, trials, people);
+        return calculatePercentage(countOfMatches, trials);
+    }
+
+    /**
+     * The checkForBirthday method checks to see if two Person objects share the same birthday.
+     * @param person1 A Person object to compare against person2.
+     * @param person2 A Person object to compare against person1.
+     * @return True - if the two Person objects share the same birthday (Month and Day) False - if the two objects do
+     * not share a birthday
+     */
+    public boolean checkForBirthday(Person person1, Person person2){
+
+        //Make sure they are not the same Person object
+        if(person1 != person2){
+
+            //Check to see if they have the same birthday and birth month
+            if(person1.getBirthday() == person2.getBirthday() &&
+                    person1.getBirthMonth() == person2.getBirthMonth()){
+
+                //If they have the same birthday and birth month, return true
+                return true;
+            }
+        }
+
+        //Otherwise return false;
+        return false;
     }
 
 
@@ -120,12 +156,11 @@ public class BirthdayProgram {
      * the class to figure out the percentage of times two people had the same birthday in the same class.
      * @param matchedBirthdays The number of times two people had the same birthday in a class.
      * @param numberOfTrials The number of trials run.
-     * @param classSize The number of students in the class.
      * @return The decimal percentage of the number of times two people had the same birthday.
      */
-    private double calculatePercentage(int matchedBirthdays, int numberOfTrials, int classSize){
+    private double calculatePercentage(int matchedBirthdays, int numberOfTrials){
 
-        return (double)matchedBirthdays / (double)(numberOfTrials*classSize);
+        return (double)matchedBirthdays / (double)(numberOfTrials);
 
     }
 }
